@@ -73,14 +73,14 @@ services:
     environment:
       - TZ=Etc/UTC
       - ENABLE_VDLM=false
-      - ENABLE_ACARS=false
+      - ENABLE_ACARS=external
       - MIN_LOG_LEVEL=3
-  #      - TAR1090_URL=http://tar1090
-  #      - IATA_OVERRIDE=UP|UPS|United Parcel Service;GS|FTH|Mountain Aviation (Foothills);GS|EJA|ExecJet
-  #      - ENABLE_ADSB=true
-  #      - ADSB_LAT=
-  #      - ADSB_LON=
-  #      - ADSB_URL=
+  #      - TAR1090_URL=
+        - IATA_OVERRIDE=UP|UPS|United Parcel Service;GS|FTH|Mountain Aviation (Foothills);GS|EJA|ExecJet
+        - ENABLE_ADSB=true
+        - ADSB_LAT=37.0160
+        - ADSB_LON=-94.2814
+        - ADSB_URL=http://192.168.1.23/data/aircraft.json
 
   ### Remove this section if you are NOT decoding ACARS
   acarsdec:
@@ -93,7 +93,7 @@ services:
     environment:
       - QUIET_LOGS=true
       - TZ=Etc/UTC
-      - SERIAL=
+      - SERIAL=00000001
       - GAIN=-10
       - PPM=0
       - FREQUENCIES=130.025;130.450;131.125;131.550
@@ -106,28 +106,7 @@ services:
 
   ### Remove this section if you are NOT decoding VDLM
 
-  dumpvdl2:
-    image: ghcr.io/sdr-enthusiasts/docker-dumpvdl2:latest
-    tty: true
-    container_name: dumpvdl2
-    restart: always
-    devices:
-      - /dev/bus/usb:/dev/bus/usb
-    environment:
-      - QUIET_LOGS=true
-      - TZ=Etc/UTC
-      - SERIAL=
-      - GAIN=40.0
-      - PPM=0
-      - FREQUENCIES=136650000;136700000;136975000;136925000;136800000
-      - FEED_ID=
-      - VDLM_FILTER_ENABLE=true
-      - ZMQ_MODE=server
-      - ZMQ_ENDPOINT=tcp://0.0.0.0:45555
-      - SERVER=
-    tmpfs:
-      - /run:exec,size=64M
-      - /var/log:size=64M
+ 
   #####
 
   acars_router:
